@@ -1,0 +1,11 @@
+cargo-features = ["edition"]
+
+[package]
+name = "saturn_tagging"
+version = "0.1.0"
+authors = ["Arthur Goldman <arthur@goldman-tribe.org>"]
+edition = "2018"
+
+[dependencies]
+failure = "0.1"
+failure_derive = "0.1"
