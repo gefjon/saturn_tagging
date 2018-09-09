@@ -5,6 +5,7 @@ name = "saturn_tagging"
 version = "0.1.0"
 authors = ["Arthur Goldman <arthur@goldman-tribe.org>"]
 edition = "2018"
+license = "MIT"
 
 [dependencies]
 failure = "0.1"
