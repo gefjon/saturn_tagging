@@ -19,7 +19,7 @@ crate const NAN_MASK: u64 = 0x7ff << 52;
 crate const TAG_SHIFT: usize = 48;
 crate const TAG_MASK: u64 = 0xf << 48;
 crate const RESERVED_BITS_MASK: u64 = NAN_MASK ^ TAG_MASK;
-crate const POINTER_TAG_MASK: u64 = 0b111;
+// crate const POINTER_TAG_MASK: u64 = 0b111;
 crate const SIGN_MASK: u64 = 1 << 63;
 crate const RESERVED_BITS_AND_SIGN: u64 = RESERVED_BITS_MASK | SIGN_MASK;
 

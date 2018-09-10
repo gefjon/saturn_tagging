@@ -1,4 +1,4 @@
-#![feature(rust_2018_preview, use_extern_macros, try_from, const_fn)]
+#![feature(try_from, const_fn)]
 
 crate mod type_tags;
 crate mod bit_utils;

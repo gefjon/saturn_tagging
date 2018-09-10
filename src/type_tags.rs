@@ -3,12 +3,14 @@ use std::convert;
 use failure_derive::Fail;
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[repr(transparent)]
 /// A type tag. When stored in this form, it must have its high 16
 /// bits clean - that is, `bit_utils::has_reserved_bits(self.0)` must
 /// return `false`.
 pub struct TypeId(u64);
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[repr(transparent)]
 /// A type tag used in single-word tagging for pass-by-value types
 /// such as pointers.
 ///
@@ -17,6 +19,7 @@ pub struct TypeId(u64);
 pub struct ThinTypeId(u8);
 
 #[derive(Copy, Clone, Debug, Fail)]
+#[repr(transparent)]
 #[fail(display = "The TypeId {:?} does not fit into a ThinTypeId", id)]
 /// The error produced by `ThinTypeId as convert::TryFrom<TypeId>`;
 /// denotes the attempt to convert a `TypeId` which does not fit into
@@ -97,11 +100,6 @@ impl ThinTypeId {
         }
     }
 }
-
-// #[derive(Copy, Clone, Debug, PartialEq, Eq)]
-// crate struct Word(u64);
-
-// crate struct TaggedWord(u64);
 
 #[cfg(test)]
 mod test {

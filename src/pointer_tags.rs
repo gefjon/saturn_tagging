@@ -1,8 +1,7 @@
-use crate::bit_utils;
+// use crate::bit_utils;
 
-//#[derive(Copy, Clone, Debug, PartialEq, Eq)]
-// A tag suitable for 
-//pub struct PointerTag(u8);
+// #[derive(Copy, Clone, Debug, PartialEq, Eq)]
+// pub struct PointerTag(u8);
 
 #[cfg(test)]
 mod test {
@@ -15,7 +14,7 @@ mod test {
             let box_n: Box<u8> = Box::new(n);
             let ptr = Box::into_raw(box_n);
             assert_eq!((ptr as usize) & 0b111, 0);
-            let box_again = unsafe { Box::from_raw(ptr) };
+            let _box_again = unsafe { Box::from_raw(ptr) };
         }
     }
     #[test]
@@ -27,7 +26,7 @@ mod test {
             let box_n: Box<u8> = Box::new(n);
             let ptr = Box::into_raw(box_n);
             assert_eq!((ptr as usize) & 0xf, 0);
-            let box_again = unsafe { Box::from_raw(ptr) };
+            let _box_again = unsafe { Box::from_raw(ptr) };
         }
     }
 }
