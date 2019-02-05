@@ -15,17 +15,17 @@
 //! (`POINTER_TAG_MASK`) can be used in pointer types as an additional
 //! tag, since modern allocators only allocate 8-byte aligned blocks.
 
-crate const NAN_MASK: u64 = 0x7ff << 52;
-crate const TAG_SHIFT: usize = 48;
-crate const TAG_MASK: u64 = 0xf << 48;
-crate const RESERVED_BITS_MASK: u64 = NAN_MASK ^ TAG_MASK;
-// crate const POINTER_TAG_MASK: u64 = 0b111;
-crate const SIGN_MASK: u64 = 1 << 63;
-crate const RESERVED_BITS_AND_SIGN: u64 = RESERVED_BITS_MASK | SIGN_MASK;
+pub const NAN_MASK: u64 = 0x7ff << 52;
+pub const TAG_SHIFT: usize = 48;
+pub const TAG_MASK: u64 = 0xf << 48;
+pub const RESERVED_BITS_MASK: u64 = NAN_MASK ^ TAG_MASK;
+// pub const POINTER_TAG_MASK: u64 = 0b111;
+pub const SIGN_MASK: u64 = 1 << 63;
+pub const RESERVED_BITS_AND_SIGN: u64 = RESERVED_BITS_MASK | SIGN_MASK;
 
 /// Panics (debug only) if `self` is not a valid taggable object. A
 /// no-op in release builds.
-crate fn assert_is_clean(n: u64) {
+pub fn assert_is_clean(n: u64) {
     debug_assert!(reserved_bits_clean(n), "0b{:064b}", n);
 }
 
@@ -33,7 +33,7 @@ crate fn assert_is_clean(n: u64) {
 /// reserved bits. This means that positive values (sign bit of 0)
 /// must have all reserved bits set to 0 and negative values (sign bit
 /// of 1) must have all reserved bits set to 1.
-crate fn reserved_bits_clean(n: u64) -> bool {
+pub fn reserved_bits_clean(n: u64) -> bool {
     let masked = n & RESERVED_BITS_AND_SIGN;
     masked == 0 || masked == RESERVED_BITS_AND_SIGN
 }
@@ -41,7 +41,7 @@ crate fn reserved_bits_clean(n: u64) -> bool {
 /// I *think* this method is equivalent to `f64::is_nan` (except that
 /// `f64::is_nan` returns `false` for ±infinity, which should be
 /// irrelevant), but I'm not sure enough to switch to using that.
-crate const fn is_a_nan(n: u64) -> bool {
+pub const fn is_a_nan(n: u64) -> bool {
     (n & NAN_MASK) == NAN_MASK
 }
 
@@ -51,22 +51,22 @@ crate const fn is_a_nan(n: u64) -> bool {
 /// * negative Infinity
 /// * the NaN used by modern chips
 /// * negative the NaN used by modern chips
-crate fn is_the_nan_or_ifty(n: u64) -> bool {
+pub fn is_the_nan_or_ifty(n: u64) -> bool {
     f64::from_bits(n).is_infinite() || ((n & !SIGN_MASK) == std::f64::NAN.to_bits())
 }
 
-crate fn is_nanbox(n: u64) -> bool {
+pub fn is_nanbox(n: u64) -> bool {
     is_a_nan(n) && !is_the_nan_or_ifty(n)
 }
 
-crate const fn tag_of(n: u64) -> u8 {
+pub const fn tag_of(n: u64) -> u8 {
     (((n & TAG_MASK) >> TAG_SHIFT) as u8) & 0x0f
 }
 
 /// Clear `RESERVED_BITS_MASK` from `n`, preserving the sign
 /// bit. `has_reserved_bits_set` will return `false` for the returned
 /// value, but its sign bit depends on the input.
-crate fn signed_untag(n: u64) -> i64 {
+pub fn signed_untag(n: u64) -> i64 {
     if (n as i64) < 0 {
         (n | RESERVED_BITS_MASK) as i64
     } else {
@@ -76,11 +76,11 @@ crate fn signed_untag(n: u64) -> i64 {
 
 /// Clear `RESERVED_BITS_MASK` from `n`, clobbering the sign. This
 /// will produce a `u64` whose high 16 bits are zero'd.
-crate const fn unsigned_untag(n: u64) -> u64 {
+pub const fn unsigned_untag(n: u64) -> u64 {
     n & !(RESERVED_BITS_MASK | SIGN_MASK)
 }
 
-crate const fn nan_tag(n: u64) -> u64 {
+pub const fn nan_tag(n: u64) -> u64 {
     n | NAN_MASK
 }
 

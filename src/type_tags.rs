@@ -1,6 +1,6 @@
 use crate::bit_utils;
-use std::convert;
-use failure_derive::Fail;
+use core::convert::TryFrom;
+use failure::Fail;
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 #[repr(transparent)]
@@ -35,7 +35,7 @@ pub struct TypeError {
     found: TypeId,
 }
 
-impl convert::TryFrom<TypeId> for ThinTypeId {
+impl TryFrom<TypeId> for ThinTypeId {
     type Error = TypeIdTooLargeError;
     /// A `TypeId` can become a `ThinTypeId` iff it fits in 4 bits.
     fn try_from(id: TypeId) -> Result<ThinTypeId, Self::Error> {
@@ -47,7 +47,7 @@ impl convert::TryFrom<TypeId> for ThinTypeId {
     }
 }
 
-impl convert::From<ThinTypeId> for TypeId {
+impl From<ThinTypeId> for TypeId {
     fn from(ThinTypeId(id): ThinTypeId) -> TypeId {
         TypeId(id.into())
     }

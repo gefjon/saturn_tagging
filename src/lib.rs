@@ -1,8 +1,9 @@
+#![cfg_attr(feature = "no_std",  no_std)]
 #![feature(try_from, const_fn)]
 
-crate mod type_tags;
-crate mod bit_utils;
-crate mod pointer_tags;
+pub mod type_tags;
+pub mod bit_utils;
+pub mod pointer_tags;
 
 pub use crate::type_tags::{TypeId, ThinTypeId, TypeError, TypeIdTooLargeError};
 
