@@ -52,7 +52,7 @@ pub const fn is_a_nan(n: u64) -> bool {
 /// * the NaN used by modern chips
 /// * negative the NaN used by modern chips
 pub fn is_the_nan_or_ifty(n: u64) -> bool {
-    f64::from_bits(n).is_infinite() || ((n & !SIGN_MASK) == std::f64::NAN.to_bits())
+    f64::from_bits(n).is_infinite() || ((n & !SIGN_MASK) == core::f64::NAN.to_bits())
 }
 
 pub fn is_nanbox(n: u64) -> bool {
